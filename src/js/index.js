@@ -1,5 +1,7 @@
 let tasksList = document.getElementsByClassName("tasks-list")[0];
 let searchBar = document.getElementsByClassName("search-bar")[0];
+let addBtn = document.getElementsByClassName("add-btn")[0];
+
 const initialize = () => {
   fetch("https://dummyjson.com/todos")
     .then((response) => {
@@ -13,25 +15,18 @@ const initialize = () => {
       let tasks = result.todos;
 
       const fromLocalStorage = localStorage.length === 0;
+
       tasksList.innerHTML = "";
-      for (let task of tasks) {
-        if (fromLocalStorage) {
+      if (fromLocalStorage) {
+        for (let task of tasks) {
           localStorage.setItem(task.id, JSON.stringify(task));
-        } else {
-          if (localStorage.getItem(task.id) === null) {
-            continue;
-          }
-          task = JSON.parse(localStorage.getItem(task.id));
+          createLi(task);
         }
-        let li = ` <li data-id=${task.id}>
-            <input type="checkbox" class="checkbox-done" ${
-              task.completed ? "checked" : ""
-            }/>
-            <span>${task.todo} </span>
-            <i class="fa-regular fa-trash-can trash" style="color: #d4d4d4"></i
-            ><i class="fa-solid fa-pencil pen" style="color: #d4d4d4"></i>
-          </li>`;
-        tasksList.innerHTML += li;
+      } else {
+        Object.keys(localStorage).forEach((key) => {
+          const task = JSON.parse(localStorage.getItem(key));
+          createLi(task);
+        });
       }
     })
     .catch((error) => {
@@ -55,6 +50,32 @@ tasksList.addEventListener("change", (Event) => {
   newItem.completed = checkbox.checked;
   localStorage.setItem(id, JSON.stringify(newItem));
 });
+
+//add new Task function
+async function addNewTask() {
+  const { value: newTaskTodo } = await Swal.fire({
+    title: "Enter your Task Todo",
+    input: "text",
+    inputLabel: "Your Task Todo",
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value) {
+        return "You need to write something!";
+      }
+    },
+  });
+  let newTask = {
+    id: generateUniqueId(),
+    todo: newTaskTodo,
+    completed: false,
+    userId: 152,
+  };
+  console.log(newTask);
+  await localStorage.setItem(newTask.id, JSON.stringify(newTask));
+  initialize();
+}
+
+addBtn.addEventListener("click", addNewTask);
 
 //delete button implementation
 tasksList.addEventListener("click", (Event) => {
@@ -97,7 +118,32 @@ searchBar.addEventListener("input", () => {
   }
 });
 
-//helper functions
+//helper functions/////////////////////////////////////
+
+function createLi(task) {
+  let li = ` <li data-id=${task.id}>
+  <input type="checkbox" class="checkbox-done" ${
+    task.completed ? "checked" : ""
+  }/>
+  <span>${task.todo} </span>
+  <i class="fa-regular fa-trash-can trash" style="color: #d4d4d4"></i
+  ><i class="fa-solid fa-pencil pen" style="color: #d4d4d4"></i>
+  </li>`;
+  tasksList.innerHTML += li;
+}
+// Function to generate a unique ID
+function generateUniqueId() {
+  let newId;
+  do {
+    // Generate a random ID (modify this logic as needed)
+    newId = Math.floor(Math.random() * 10000);
+  } while (
+    Array.from(tasksList.children).some((task) => task.dataset.id === newId)
+  );
+
+  return newId;
+}
+
 function clearSearchResult() {
   for (let li of tasksList.children) {
     li.classList.remove("search-result"); // Show all tasks

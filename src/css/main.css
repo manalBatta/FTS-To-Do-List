@@ -25,6 +25,7 @@ main {
     display: flex;
     justify-content: center;
     width: 100%;
+    gap: 1%;
 
     .search-bar {
       width: 80%;
@@ -37,8 +38,9 @@ main {
     .search-bar::placeholder {
       color: var(--note-color);
     }
-    .search-btn {
+    .add-btn {
       text-transform: uppercase;
+      font-weight: 700;
     }
 
     .mode-btn {
@@ -68,14 +70,6 @@ main {
         .checkbox-done {
           border-color: var(--layout-color);
         }
-
-        /* to do delete the style here */
-        /* .task-input {
-          border: none;
-          font-size: 1.2rem;
-          background-color: unset;
-          color: #252525;
-        } */
 
         .pen,
         .trash {
