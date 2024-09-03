@@ -1,6 +1,7 @@
 let tasksList = document.getElementsByClassName("tasks-list")[0];
 let searchBar = document.getElementsByClassName("search-bar")[0];
 let addBtn = document.getElementsByClassName("add-btn")[0];
+let modeBtn = document.querySelector(".mode-btn");
 
 const initialize = () => {
   fetch("https://dummyjson.com/todos")
@@ -35,7 +36,18 @@ const initialize = () => {
 };
 initialize();
 
+//basic operations implementations
+//mode btn
+modeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  Array.from(modeBtn.children).forEach((mode) => {
+    mode.style.display = mode.style.display == "none" ? "inline" : "none";
+    console.log(mode);
+  });
+});
+
 // event delegation
+
 //checkbox task completion implementation
 tasksList.addEventListener("change", (Event) => {
   let checkbox;

@@ -13,6 +13,11 @@ body {
   justify-content: center;
 }
 
+body.dark-mode {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
 header {
   h1 {
     text-transform: uppercase;
@@ -70,6 +75,14 @@ main {
         .checkbox-done {
           border-color: var(--layout-color);
         }
+
+        /* to do delete the style here */
+        /* .task-input {
+          border: none;
+          font-size: 1.2rem;
+          background-color: unset;
+          color: #252525;
+        } */
 
         .pen,
         .trash {
