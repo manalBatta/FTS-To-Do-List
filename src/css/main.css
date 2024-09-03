@@ -1,0 +1,113 @@
+:root {
+  --layout-color: #6c63ff;
+  --white-color: #f7f7f7;
+  --black-color: #252525;
+  --note-color: #c3c1e5;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  h1 {
+    text-transform: uppercase;
+  }
+}
+
+main {
+  width: 60%;
+  .search-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .search-bar {
+      width: 80%;
+      padding: 1.5%;
+      border-radius: 5px;
+      border: var(--layout-color) solid 2px;
+      font-size: 1.1rem;
+    }
+
+    .search-bar::placeholder {
+      color: var(--note-color);
+    }
+    .search-btn {
+      text-transform: uppercase;
+    }
+
+    .mode-btn {
+      padding: 2px 1.5%;
+    }
+
+    .search-icon {
+      font-size: 1.2rem;
+      position: relative;
+      right: 35px;
+      top: 0.5em;
+    }
+  }
+
+  .tasks-container {
+    width: 80%;
+    margin: 2px auto;
+    .tasks-list {
+      list-style-type: none;
+
+      li {
+        border-bottom: var(--layout-color) 1px solid;
+        padding: 4%;
+        padding-left: 0;
+        font-size: 1.2rem;
+
+        .checkbox-done {
+          border-color: var(--layout-color);
+        }
+
+        /* to do delete the style here */
+        /* .task-input {
+          border: none;
+          font-size: 1.2rem;
+          background-color: unset;
+          color: #252525;
+        } */
+
+        .pen,
+        .trash {
+          float: right;
+          padding-left: 5px;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+      }
+      li:hover .trash,
+      li:hover .pen {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.btn {
+  background-color: var(--layout-color);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 0.8%;
+  transition: opacity 0.5s ease;
+}
+.btn:hover {
+  opacity: 0.7;
+}
+
+.search-result {
+  background-color: #6b63ff3f;
+  border-radius: 10px;
+}
