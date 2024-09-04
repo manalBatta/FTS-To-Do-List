@@ -111,10 +111,13 @@ footer {
   .tasks-count {
     position: fixed;
     bottom: 5%;
-    width: 20px;
-    height: 20px;
+    width: fit-content;
+    text-align: center;
     border-radius: 50px;
     right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 .btn {

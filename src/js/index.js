@@ -30,7 +30,7 @@ const initialize = () => {
           createLi(task);
         });
       }
-      tasksCount.innerHTML = localStorage.length;
+      tasksCount.innerHTML = "Total Tasks: " + localStorage.length;
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
@@ -99,7 +99,7 @@ async function addNewTask() {
 addBtn.addEventListener("click", addNewTask);
 
 //delete button implementation
-tasksList.addEventListener("click", (Event) => {
+tasksList.addEventListener("click", async (Event) => {
   let trash;
   let parentLi;
   let id;
@@ -111,7 +111,11 @@ tasksList.addEventListener("click", (Event) => {
     id = trash.parentElement.dataset.id;
   }
   let newItem = JSON.parse(localStorage.getItem(id));
-  let confirmed = confirm("Are you sure to delete this element", newItem.todo);
+  const { value: confirmed } = await Swal.fire({
+    title: "Delete alert",
+    icon: "error",
+    showCancelButton: true,
+  });
   if (confirmed) {
     localStorage.removeItem(id);
     tasksList.removeChild(parentLi);
@@ -119,8 +123,8 @@ tasksList.addEventListener("click", (Event) => {
       console.log("there is no children");
       clearTasks();
     }
-  } else console.log("deletion canceled");
-  tasksCount.innerHTML = localStorage.length;
+  }
+  tasksCount.innerHTML = "Total Tasks: " + localStorage.length;
 });
 
 //search implementation
@@ -214,17 +218,3 @@ function clearTasks() {
   localStorage.clear(); // Remove tasks from localStorage
   localStorage.setItem("tasksDeleted", true); // Set a flag indicating tasks were deleted
 }
-
-// tasksList.addEventListener("click", (Event) => {
-//   let liClicked;
-//   if (Event.target.tagName !== "LI") {
-//     liClicked = Event.target.closest("li");
-//     if (!tasksList.contains(liClicked)) {
-//       return;
-//     }
-//   } else {
-//     liClicked = Event.target;
-//   }
-
-//   liClicked.firstChild();
-// });
