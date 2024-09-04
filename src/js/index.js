@@ -2,6 +2,7 @@ let tasksList = document.getElementsByClassName("tasks-list")[0];
 let searchBar = document.getElementsByClassName("search-bar")[0];
 let addBtn = document.getElementsByClassName("add-btn")[0];
 let modeBtn = document.querySelector(".mode-btn");
+let tasksCount = document.querySelector(".tasks-count");
 
 const initialize = () => {
   fetch("https://dummyjson.com/todos")
@@ -29,6 +30,7 @@ const initialize = () => {
           createLi(task);
         });
       }
+      tasksCount.innerHTML = localStorage.length;
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
@@ -60,6 +62,10 @@ tasksList.addEventListener("change", (Event) => {
   }
   let newItem = JSON.parse(localStorage.getItem(id));
   newItem.completed = checkbox.checked;
+  checkbox.parentElement.style.textDecoration = checkbox.checked
+    ? "line-through"
+    : "none";
+
   localStorage.setItem(id, JSON.stringify(newItem));
 });
 
@@ -114,6 +120,7 @@ tasksList.addEventListener("click", (Event) => {
       clearTasks();
     }
   } else console.log("deletion canceled");
+  tasksCount.innerHTML = localStorage.length;
 });
 
 //search implementation
@@ -171,7 +178,9 @@ tasksList.addEventListener("click", async (Event) => {
 //helper functions/////////////////////////////////////
 
 function createLi(task) {
-  let li = ` <li data-id=${task.id}>
+  let li = ` <li data-id=${task.id} style="text-decoration:${
+    task.completed ? "line-through" : "none"
+  }">
   <input type="checkbox" class="checkbox-done" ${
     task.completed ? "checked" : ""
   }/>
