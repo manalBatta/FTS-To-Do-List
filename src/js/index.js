@@ -93,6 +93,8 @@ async function addNewTask() {
   };
   console.log(newTask);
   await localStorage.setItem(newTask.id, JSON.stringify(newTask));
+  localStorage.removeItem("tasksDeleted");
+
   initialize();
 }
 
