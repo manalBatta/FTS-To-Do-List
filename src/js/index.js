@@ -12,6 +12,7 @@ const initialize = () => {
     .then((result) => {
       const tasksDeleted = localStorage.getItem("tasksDeleted");
       if (tasksDeleted) {
+        tasksCount.innerHTML = "Total Tasks: 0";
         return;
       }
       let tasks = result.todos;
@@ -121,7 +122,7 @@ tasksList.addEventListener("click", async (Event) => {
   if (confirmed) {
     localStorage.removeItem(id);
     tasksList.removeChild(parentLi);
-    if (tasksList.childElementCount == 0) {
+    if (localStorage.length == 0) {
       console.log("there is no children");
       clearTasks();
     }
@@ -219,4 +220,5 @@ function clearSearchResult() {
 function clearTasks() {
   localStorage.clear(); // Remove tasks from localStorage
   localStorage.setItem("tasksDeleted", true); // Set a flag indicating tasks were deleted
+  initialize();
 }
