@@ -68,7 +68,7 @@ async function addNewTask() {
   const { value: newTaskTodo } = await Swal.fire({
     title: "Enter your Task Todo",
     input: "text",
-    inputLabel: "Your Task Todo",
+    inputLabel: "Today I will",
     showCancelButton: true,
     inputValidator: (value) => {
       if (!value) {
@@ -76,6 +76,9 @@ async function addNewTask() {
       }
     },
   });
+  if (newTaskTodo === undefined) {
+    return;
+  }
   let newTask = {
     id: generateUniqueId(),
     todo: newTaskTodo,
@@ -128,6 +131,41 @@ searchBar.addEventListener("input", () => {
       li.hidden = true;
     }
   }
+});
+
+//edit task implementation
+tasksList.addEventListener("click", async (Event) => {
+  let pen;
+  let parentLi;
+  let id;
+  if (!Event.target.classList.contains("pen")) {
+    return;
+  } else {
+    pen = Event.target;
+    parentLi = pen.parentElement;
+    id = pen.parentElement.dataset.id;
+  }
+  let newItem = JSON.parse(localStorage.getItem(id));
+
+  const { value: edits } = await Swal.fire({
+    title: "Edit your Task ",
+    input: "text",
+    inputLabel: "Today I will",
+    inputValue: newItem.todo,
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value) {
+        return "You need to write something!";
+      }
+    },
+  });
+
+  if (edits === undefined) {
+    return;
+  }
+  newItem.todo = edits;
+  localStorage.setItem(newItem.id, JSON.stringify(newItem));
+  initialize();
 });
 
 //helper functions/////////////////////////////////////
