@@ -95,6 +95,13 @@ async function addNewTask() {
   console.log(newTask);
   await localStorage.setItem(newTask.id, JSON.stringify(newTask));
   localStorage.removeItem("tasksDeleted");
+  fetch("https://dummyjson.com/todos", {
+    method: "POST",
+    body: JSON.stringify(newTask),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
 
   initialize();
 }
