@@ -77,17 +77,17 @@ main {
         font-size: 1.2rem;
 
         .checkbox-done {
-          border-color: var(--layout-color);
+          border: var(--layout-color) 3px solid;
+          width: 20px;
+          height: 20px;
+          appearance: none;
+          cursor: pointer;
+          box-sizing: border-box;
+          line-height: 1;
         }
-
-        /* to do delete the style here */
-        /* .task-input {
-          border: none;
-          font-size: 1.2rem;
-          background-color: unset;
-          color: #252525;
-        } */
-
+        .checkbox-done:checked {
+          appearance: auto; /* Revert to the native appearance */
+        }
         .pen,
         .trash {
           float: right;
